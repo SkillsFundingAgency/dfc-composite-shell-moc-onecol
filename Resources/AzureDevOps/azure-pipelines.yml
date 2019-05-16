@@ -30,7 +30,7 @@ steps:
    displayName: dotnet publish
    inputs:
     command: publish
-    projects: 'DFC.Composite.Shell.Moc.TwoCol\DFC.Composite.Shell.Moc.TwoCol.csproj'
+    projects: 'DFC.Composite.Shell.Moc.OneCol\DFC.Composite.Shell.Moc.OneCol.csproj'
     configuration: ${{ variables.buildConfiguration }}
     arguments: '--output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: true
