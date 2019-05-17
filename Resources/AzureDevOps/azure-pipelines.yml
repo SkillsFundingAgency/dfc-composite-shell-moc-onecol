@@ -1,5 +1,5 @@
 variables:
-  SolutionBaseName: 'dfc-composite-shell-moc-onecol'
+  SolutionBaseName: 'DFC.Composite.Shell.Moc.OneCol'
   BuildPlatform: 'any cpu'
   BuildConfiguration: 'release'
 
