@@ -9,12 +9,6 @@ steps:
    inputs:
      preferBundledVersion: false
  
-#- task: NuGetToolInstaller@0
-#  displayName: 'Use NuGet 4.3.0'
-#- task: NuGetCommand@2
-# displayName: 'NuGet restore ${{ variables.SolutionBaseName }}.sln'
-#   inputs:
-#     restoreSolution: '${{ variables.SolutionBaseName }}.sln'
  - task: DotNetCoreCLI@2
    displayName: 'dotnet build'
    inputs:
