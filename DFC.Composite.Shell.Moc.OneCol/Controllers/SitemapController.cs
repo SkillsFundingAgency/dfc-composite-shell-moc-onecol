@@ -42,6 +42,7 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
 
                 categories.ForEach(c => sitemap.Add(new SitemapLocation() { Url = Url.Action(nameof(TradeController.Index), TradeControllerName, new { Category = c }, Request.Scheme), Priority = 1 }));
 
+                // extract the sitemap
                 string xmlString = sitemap.WriteSitemapToString();
 
                 _logger.LogInformation("Generated Sitemap");

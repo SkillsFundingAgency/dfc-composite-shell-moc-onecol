@@ -22,6 +22,30 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         }
 
         [HttpGet]
+        public IActionResult Head()
+        {
+            var vm = new HeadViewModel();
+
+            return View(vm);
+        }
+
+        [HttpGet]
+        public IActionResult BodyTop()
+        {
+            var vm = new BodyTopViewModel();
+
+            return View(vm);
+        }
+
+        [HttpGet]
+        public IActionResult Breadcrumb()
+        {
+            var vm = new BreadcrumbViewModel();
+
+            return View(vm);
+        }
+
+        [HttpGet]
         public IActionResult Index(string category, string filter, string searchClue)
         {
             var vm = new TradeIndexViewModel();
@@ -30,6 +54,14 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
             bool filter21Plus = (string.Compare(filter, Filter21Plus, true) == 0);
 
             vm.Trades = _tradeService.GetTrades(category, filter16Plus, filter18Plus, filter21Plus, searchClue);
+
+            return View(vm);
+        }
+
+        [HttpGet]
+        public IActionResult BodyFooter()
+        {
+            var vm = new BodyFooterViewModel();
 
             return View(vm);
         }
@@ -60,12 +92,6 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
             }
 
             return View(search);
-        }
-
-        [HttpGet]
-        public IActionResult Navbar()
-        {
-            return View();
         }
 
         [HttpGet]
