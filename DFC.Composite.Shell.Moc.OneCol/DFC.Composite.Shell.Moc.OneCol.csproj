@@ -8,7 +8,6 @@
 
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.AsyncInitialization" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="2.2.0" />
