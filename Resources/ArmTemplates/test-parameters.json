@@ -2,11 +2,11 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "appServiceName": {
+        "value": "dfc-dev-compui-shell-moc-onecol-as"
+      },
     "CompositeUiSharedResourceGroup": {
       "value": "dfc-dev-compui-shared-rg"
-    },
-    "appServiceName": {
-      "value": "dfc-dev-compui-shell-moc-onecol-as"
     },
     "CompositeUiSharedStorageAccountName": {
       "value": "dfcdevcompuisharedstr"
