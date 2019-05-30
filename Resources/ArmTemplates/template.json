@@ -1,112 +1,77 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "appServiceName": {
-            "type": "string",
-            "metadata": {
-                "description": "App Service name to be created"
-            }
-        },
-        "appServicePlanName": {
-            "type": "string",
-            "metadata": {
-                "description": "App Service Plan to put the app service inside"
-            }
-        },
-        "appServicePlanResourceGroup": {
-            "type": "string",
-            "defaultValue": "[resourceGroup().name]",
-            "metadata": {
-                "description": "Resource group the App Service Plan is within"
-            }
-        },
-        "appServiceAppSettings": {
-            "type": "array",
-            "defaultValue": [],
-            "metadata": {
-                "description": "Array of app settings to be created"
-            }
-        },
-        "appServiceConnectionStrings": {
-            "type": "array",
-            "defaultValue": [],
-            "metadata": {
-                "description": "Array of connection strings to be created"
-            }
-        },
-        "customHostName": {
-            "type": "string",
-            "defaultValue": ""
-        },
-        "certificateThumbprint": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": ""
-            }
-        },
-        "deployStagingSlot": {
-            "type": "bool",
-            "defaultValue": true
-        }
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appServiceName": {
+      "type": "string"
     },
-    "variables": {
-        "useCustomHostname": "[greater(length(parameters('customHostname')), 0)]",
-        "appServicePlanId": "[resourceId(parameters('appServicePlanResourceGroup'), 'Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+    "CompositeUiSharedResourceGroup": {
+      "type": "string"
     },
-    "resources": [
-        {
-            "name": "[parameters('appServiceName')]",
-            "type": "Microsoft.Web/sites",
-            "apiVersion": "2016-08-01",
-            "kind": "app",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "serverFarmId": "[variables('appServicePlanId')]",
-                "clientAffinityEnabled": false,
-                "siteConfig": {
-                    "alwaysOn": true,
-                    "appSettings": "[parameters('appServiceAppSettings')]",
-                    "connectionStrings": "[parameters('appServiceConnectionStrings')]"
-                },
-                "httpsOnly": true
-            },
-            "resources": [
-                {
-                    "condition": "[parameters('deployStagingSlot')]",
-                    "name": "staging",
-                    "type": "slots",
-                    "apiVersion": "2016-08-01",
-                    "location": "[resourceGroup().location]",
-                    "properties": {
-                        "clientAffinityEnabled": false,
-                        "siteConfig": {
-                            "appSettings": "[parameters('appServiceAppSettings')]",
-                            "connectionStrings": "[parameters('appServiceConnectionStrings')]"
-                        }
-                    },
-                    "dependsOn": [
-                        "[parameters('appServiceName')]"
-                    ]
-                }
-            ],
-            "dependsOn": []
+    "CompositeUiSharedStorageAccountName": {
+      "type": "string"
+    },
+    "Environment": {
+      "type": "string"
+    },
+    "SharedAppServicePlanName": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "SharedAppServicePlanResourceGroup": {
+      "type": "string",
+      "defaultValue": ""
+    }
+  },
+  "variables": {
+    "AppServicePlanName": "[if(greater(length(parameters('SharedAppServicePlanName')), 0), parameters('SharedAppServicePlanName'), concat(variables('ResourcePrefix'), '-asp'))]",
+    "AppServicePlanResourceGroup": "[if(greater(length(parameters('SharedAppServicePlanResourceGroup')), 0), parameters('SharedAppServicePlanResourceGroup'), resourceGroup().name)]",
+    "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
+    "WebAppName": "[concat(variables('ResourcePrefix'), '-as')]",
+    "ResourcePrefix": "[tolower(concat('dfc-', parameters('Environment'), '-compui-shell-moc-onecol'))]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2017-05-10",
+      "name": "[variables('WebAppName')]",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'app-service.json')]",
+          "contentVersion": "1.0.0.0"
         },
-        {
-            "type": "Microsoft.Web/sites/hostnameBindings",
-            "condition": "[variables('UseCustomHostname')]",
-            "name": "[concat(parameters('appServiceName'), '/', if(variables('useCustomHostname'), parameters('customHostname'), 'placeholder'))]",
-            "apiVersion": "2016-08-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "sslState": "SniEnabled",
-                "thumbprint": "[parameters('certificateThumbprint')]"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('appServiceName'))]"
+        "parameters": {
+          "appServiceName": {
+            "value": "[variables('WebAppName')]"
+          },
+          "appServicePlanName": {
+            "value": "[variables('AppServicePlanName')]"
+          },
+          "appServicePlanResourceGroup": {
+            "value": "[variables('AppServicePlanResourceGroup')]"
+          },
+          "appServiceType": {
+            "value": "app"
+          },
+          "deployStagingSlot": {
+            "value": false
+          },
+          "appServiceAppSettings": {
+            "value": [
+              {
+                "name": "MSDEPLOY_RENAME_LOCKED_FILES",
+                "value": "1"
+              },
+              {
+                "name": "AzureWebJobsStorage",
+                "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('CompositeUiSharedStorageAccountName'),';AccountKey=',listKeys(resourceId(parameters('CompositeUiSharedResourceGroup'), 'Microsoft.Storage/storageAccounts', parameters('CompositeUiSharedStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ';EndpointSuffix=core.windows.net')]"
+              }
             ]
+          }
         }
-    ],
-    "outputs": {}
+      }
+    }
+  ],
+  "outputs": {}
 }
