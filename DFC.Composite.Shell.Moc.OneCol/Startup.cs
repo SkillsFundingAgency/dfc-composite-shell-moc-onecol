@@ -52,6 +52,13 @@ namespace DFC.Composite.Shell.Moc.OneCol
 
             app.UseMvc(routes =>
             {
+                // add the breadcrumb routing
+                routes.MapRoute(
+                    name: $"Breadcrumb-Action",
+                    template: "Trade/Breadcrumb/{**data}",
+                    defaults: new { controller = "Trade", action = "Breadcrumb" }
+                );
+
                 // add the trades routing
                 routes.MapRoute(
                     name: $"Trade-Index-Category",
