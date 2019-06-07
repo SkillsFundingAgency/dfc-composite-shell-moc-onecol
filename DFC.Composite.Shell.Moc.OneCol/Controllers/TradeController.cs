@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DFC.Composite.Shell.Moc.OneCol.Data;
 using DFC.Composite.Shell.Moc.OneCol.Models;
 using DFC.Composite.Shell.Moc.OneCol.Services;
@@ -38,11 +39,29 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         }
 
         [HttpGet]
-        public IActionResult Breadcrumb()
+        public IActionResult Breadcrumb(string data)
         {
-            var vm = new BreadcrumbViewModel();
+            string[] paths = null;
+            string thisLocation = null;
 
-            return View(vm);
+            if (!string.IsNullOrEmpty(data))
+            {
+                paths = data.Split('/');
+
+                if (paths.Length > 0)
+                {
+                    thisLocation = paths[paths.Length - 1];
+                    paths = new ArraySegment<string>(paths, 0, paths.Length - 1).ToArray();
+                }
+            }
+
+            var viewModel = new BreadcrumbViewModel()
+            {
+                Paths = paths,
+                ThisLocation = thisLocation
+            };
+
+            return View(viewModel);
         }
 
         [HttpGet]
