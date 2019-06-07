@@ -52,6 +52,13 @@ namespace DFC.Composite.Shell.Moc.OneCol
 
             app.UseMvc(routes =>
             {
+                // add the breadcrumb routing
+                routes.MapRoute(
+                    name: $"Breadcrumb-Action",
+                    template: "Trade/Breadcrumb/{**data}",
+                    defaults: new { controller = "Trade", action = "Breadcrumb" }
+                );
+
                 // add the trades routing
                 routes.MapRoute(
                     name: $"Trade-Index-Category",
@@ -75,7 +82,7 @@ namespace DFC.Composite.Shell.Moc.OneCol
                 );
                 routes.MapRoute(
                     name: $"Trade-Index-Search",
-                    template: "Trade/{searchClue}",
+                    template: "Trade/{searchClue?}",
                     defaults: new { controller = "Trade", action = "Index" }
                 );
 
@@ -89,7 +96,7 @@ namespace DFC.Composite.Shell.Moc.OneCol
                 // add the default route
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Error}");
             });
         }
 
