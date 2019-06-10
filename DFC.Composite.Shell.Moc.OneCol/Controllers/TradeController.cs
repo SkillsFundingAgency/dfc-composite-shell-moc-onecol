@@ -39,6 +39,7 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         }
 
         [HttpGet]
+        [Route("Trade/Breadcrumb/{**data}")]
         public IActionResult Breadcrumb(string data)
         {
             string[] paths = null;
