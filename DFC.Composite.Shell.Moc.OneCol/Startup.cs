@@ -82,7 +82,7 @@ namespace DFC.Composite.Shell.Moc.OneCol
                 // add the site map route
                 routes.MapRoute(
                     name: "Sitemap",
-                    template: "Sitemap",
+                    template: "Sitemap.xml",
                     defaults: new { controller = "Sitemap", action = "Sitemap" }
                 );
 
