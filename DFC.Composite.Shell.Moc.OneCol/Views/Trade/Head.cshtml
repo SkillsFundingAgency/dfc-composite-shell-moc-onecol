@@ -1,5 +1,13 @@
 ﻿@model HeadViewModel
 
-@*
-    this is the Head region
-*@
+@if (!string.IsNullOrWhiteSpace(Model.Title))
+{
+    ViewData["Title"] = $"Trade | {Model.Title} | National Careers Service";
+
+    <title>@ViewData["Title"]</title>
+}
+
+@if (Model.Contents != null)
+{
+    @Html.Raw(Model.Contents)
+}

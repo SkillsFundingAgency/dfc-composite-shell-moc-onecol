@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DFC.Composite.Shell.Moc.OneCol.Models
 {
-    public class BreadcrumbPathViewModel
+    public class BreadcrumbPathViewModel: BaseViewModel
     {
         public string Route { get; set; }
         public string Title { get; set; }

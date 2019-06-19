@@ -27,7 +27,11 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         [Route("trade/head/{**data}")]
         public IActionResult Head(string data)
         {
-            var vm = new HeadViewModel();
+            var vm = new HeadViewModel
+            {
+                Title = nameof(Head),
+                Contents = null
+            };
 
             return View(vm);
         }
@@ -36,7 +40,11 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         [Route("trade/bodytop/{**data}")]
         public IActionResult BodyTop(string data)
         {
-            var vm = new BodyTopViewModel();
+            var vm = new BodyTopViewModel
+            {
+                Title = nameof(BodyTop),
+                Contents = null
+            };
 
             return View(vm);
         }
@@ -45,7 +53,10 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         [Route("trade/breadcrumb/{**data}")]
         public IActionResult Breadcrumb(string data)
         {
-            var vm = new BreadcrumbViewModel();
+            var vm = new BreadcrumbViewModel()
+            {
+                Title = data
+            };
 
             if (!string.IsNullOrWhiteSpace(data))
             {
@@ -76,10 +87,13 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         [HttpGet]
         public IActionResult Index(string category, string filter, string searchClue)
         {
-            var vm = new TradeIndexViewModel();
             bool filter16Plus = (string.Compare(filter, Filter16Plus, true) == 0);
             bool filter18Plus = (string.Compare(filter, Filter18Plus, true) == 0);
             bool filter21Plus = (string.Compare(filter, Filter21Plus, true) == 0);
+            var vm = new TradeIndexViewModel()
+            {
+                Title = nameof(Index)
+            };
 
             vm.Trades = _tradeService.GetTrades(category, filter16Plus, filter18Plus, filter21Plus, searchClue);
 
@@ -90,7 +104,11 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         [Route("trade/bodyfooter/{**data}")]
         public IActionResult BodyFooter(string data)
         {
-            var vm = new BodyFooterViewModel();
+            var vm = new BodyFooterViewModel
+            {
+                Title = nameof(BodyFooter),
+                Contents = null
+            };
 
             return View(vm);
         }
@@ -103,7 +121,10 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
                 return RedirectToAction(nameof(Index), new { searchClue });
             }
 
-            var vm = new SearchViewModel();
+            var vm = new SearchViewModel()
+            {
+                Title = nameof(Search)
+            };
 
             return View(vm);
         }
@@ -119,6 +140,8 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
                     return RedirectToAction(nameof(Index), new { searchClue = search.Clue });
                 }
             }
+
+            search.Title = nameof(Search);
 
             return View(search);
         }
