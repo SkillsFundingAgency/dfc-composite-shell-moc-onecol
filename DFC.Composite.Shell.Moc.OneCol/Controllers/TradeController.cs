@@ -24,6 +24,7 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         }
 
         [HttpGet]
+        [Route("trade/head/{**data}")]
         public IActionResult Head(string data)
         {
             var vm = new HeadViewModel();
@@ -32,6 +33,7 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         }
 
         [HttpGet]
+        [Route("trade/bodytop/{**data}")]
         public IActionResult BodyTop(string data)
         {
             var vm = new BodyTopViewModel();
@@ -40,7 +42,7 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         }
 
         [HttpGet]
-        [Route("Trade/Breadcrumb/{**data}")]
+        [Route("trade/breadcrumb/{**data}")]
         public IActionResult Breadcrumb(string data)
         {
             var vm = new BreadcrumbViewModel();
@@ -85,6 +87,7 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         }
 
         [HttpGet]
+        [Route("trade/bodyfooter/{**data}")]
         public IActionResult BodyFooter(string data)
         {
             var vm = new BodyFooterViewModel();
