@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DFC.Composite.Shell.Moc.OneCol.Data;
 using DFC.Composite.Shell.Moc.OneCol.Models;
 using DFC.Composite.Shell.Moc.OneCol.Services;
@@ -23,7 +24,7 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         }
 
         [HttpGet]
-        public IActionResult Head()
+        public IActionResult Head(string data)
         {
             var vm = new HeadViewModel();
 
@@ -31,7 +32,7 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         }
 
         [HttpGet]
-        public IActionResult BodyTop()
+        public IActionResult BodyTop(string data)
         {
             var vm = new BodyTopViewModel();
 
@@ -42,27 +43,32 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         [Route("Trade/Breadcrumb/{**data}")]
         public IActionResult Breadcrumb(string data)
         {
-            string[] paths = null;
-            string thisLocation = null;
+            var vm = new BreadcrumbViewModel();
 
-            if (!string.IsNullOrEmpty(data))
+            if (!string.IsNullOrWhiteSpace(data))
             {
-                paths = data.Split('/');
+                vm.Paths = new List<BreadcrumbPathViewModel>() {
+                    new BreadcrumbPathViewModel()
+                    {
+                        Route = "/",
+                        Title = "Home"
+                    },
+                    new BreadcrumbPathViewModel()
+                    {
+                        Route = "/trade/index",
+                        Title = "Trades"
+                    },
+                    new BreadcrumbPathViewModel()
+                    {
+                        Route = $"/trade/{data}",
+                        Title = data
+                    }
+                };
 
-                if (paths.Length > 0)
-                {
-                    thisLocation = paths[paths.Length - 1];
-                    paths = new ArraySegment<string>(paths, 0, paths.Length - 1).ToArray();
-                }
+                vm.Paths.Last().IsLastItem = true;
             }
 
-            var viewModel = new BreadcrumbViewModel()
-            {
-                Paths = paths,
-                ThisLocation = thisLocation
-            };
-
-            return View(viewModel);
+            return View(vm);
         }
 
         [HttpGet]
@@ -79,7 +85,7 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         }
 
         [HttpGet]
-        public IActionResult BodyFooter()
+        public IActionResult BodyFooter(string data)
         {
             var vm = new BodyFooterViewModel();
 

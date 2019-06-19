@@ -4,7 +4,7 @@ namespace DFC.Composite.Shell.Moc.OneCol.Models
 {
     public class BreadcrumbViewModel
     {
-        public IEnumerable<string> Paths { get; set; }
-        public string ThisLocation { get; set; }
+        public string Title { get; set; } = "Unknown trade";
+        public IList<BreadcrumbPathViewModel> Paths { get; set; }
     }
 }
