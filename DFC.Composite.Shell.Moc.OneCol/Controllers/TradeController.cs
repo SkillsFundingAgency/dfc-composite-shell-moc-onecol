@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using DFC.Composite.Shell.Moc.OneCol.Data;
 using DFC.Composite.Shell.Moc.OneCol.Models;
@@ -55,12 +54,8 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         {
             var vm = new BreadcrumbViewModel()
             {
-                Title = data
-            };
-
-            if (!string.IsNullOrWhiteSpace(data))
-            {
-                vm.Paths = new List<BreadcrumbPathViewModel>() {
+                Title = data,
+                Paths = new List<BreadcrumbPathViewModel>() {
                     new BreadcrumbPathViewModel()
                     {
                         Route = "/",
@@ -70,13 +65,19 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
                     {
                         Route = "/trade/index",
                         Title = "Trades"
-                    },
+                    }
+                }
+            };
+
+            if (!string.IsNullOrWhiteSpace(data))
+            {
+                vm.Paths.Add(
                     new BreadcrumbPathViewModel()
                     {
                         Route = $"/trade/{data}",
                         Title = data
                     }
-                };
+                );
 
                 vm.Paths.Last().IsLastItem = true;
             }
