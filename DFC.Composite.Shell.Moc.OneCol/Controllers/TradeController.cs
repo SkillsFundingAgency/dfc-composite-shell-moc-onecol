@@ -102,6 +102,12 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
         }
 
         [HttpGet]
+        public IActionResult Health()
+        {
+            return Ok();
+        }
+
+        [HttpGet]
         [Route("trade/bodyfooter/{**data}")]
         public IActionResult BodyFooter(string data)
         {
