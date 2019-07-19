@@ -138,6 +138,8 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("trade/search")]
+        [Route("/search")]
         public IActionResult Search(SearchViewModel search)
         {
             if (ModelState.IsValid)
@@ -172,6 +174,8 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("trade/edit")]
+        [Route("/edit")]
         public IActionResult Edit(Trade trade)
         {
             if (ModelState.IsValid)
