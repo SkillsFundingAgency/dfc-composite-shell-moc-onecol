@@ -3,6 +3,7 @@ using System.Linq;
 using DFC.Composite.Shell.Moc.OneCol.Data;
 using DFC.Composite.Shell.Moc.OneCol.Models;
 using DFC.Composite.Shell.Moc.OneCol.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -96,6 +97,7 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
                 Title = nameof(Index)
             };
 
+            PopulateVisits(vm);
             vm.Trades = _tradeService.GetTrades(category, filter16Plus, filter18Plus, filter21Plus, searchClue);
 
             return View(vm);
@@ -117,6 +119,8 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
                 Contents = null
             };
 
+            PopulateVisits(vm);
+            
             return View(vm);
         }
 
@@ -186,6 +190,21 @@ namespace DFC.Composite.Shell.Moc.OneCol.Controllers
             }
 
             return View(trade);
+        }
+
+        private void PopulateVisits(BaseViewModel baseViewModel)
+        {
+            var visitsBodyKey = "VisitsBody";
+            var visitsBody = HttpContext.Session.GetInt32(visitsBodyKey) ?? 0;
+            HttpContext.Session.SetInt32(visitsBodyKey, visitsBody + 1);
+            baseViewModel.VisitsBody = visitsBody + 1;
+
+            var visitsFooterKey = "VisitsFooter";
+            var visitsFooter = HttpContext.Session.GetInt32(visitsFooterKey) ?? 0;
+            HttpContext.Session.SetInt32(visitsFooterKey, visitsFooter + 1);
+            baseViewModel.VisitsFooter = visitsFooter + 1;
+
+            baseViewModel.Cookie = HttpContext.Request.Headers["Cookie"].ToString();
         }
     }
 }
