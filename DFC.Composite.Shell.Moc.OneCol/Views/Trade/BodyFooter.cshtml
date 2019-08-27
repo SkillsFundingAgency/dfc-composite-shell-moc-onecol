@@ -3,17 +3,18 @@
 @{
     ViewData["Title"] = Model.Title;
 }
+<div class="govuk-width-container">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <h1 class="govuk-heading-xl">@ViewBag.Title</h1>
 
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-xl">@ViewBag.Title</h1>
+            <p class="govuk-body">Cookie @Model.Cookie</p>
+            <p class="govuk-body">VisitsBody @Model.VisitsBody</p>
+            <p class="govuk-body">VisitsFooter @Model.VisitsFooter</p>
 
-        <p class="govuk-body">Cookie @Model.Cookie</p>
-        <p class="govuk-body">VisitsBody @Model.VisitsBody</p>
-        <p class="govuk-body">VisitsFooter @Model.VisitsFooter</p>
-
-        <p class="govuk-body-l">
-            This is the body footer region
-        </p>
+            <p class="govuk-body-l">
+                This is the body footer region
+            </p>
+        </div>
     </div>
 </div>
